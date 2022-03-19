@@ -21,6 +21,13 @@ class addMovieViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        
+        //Code block to add a new movie
+        if !newMovieLabel.text!.isEmpty{
+            let title = newMovieLabel.text!
+            let movie = Movie(title: title)
+            movieList.addMovie(movie: movie)
+        }
 
         
     }

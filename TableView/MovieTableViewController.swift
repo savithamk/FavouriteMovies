@@ -13,7 +13,14 @@ class MovieTableViewController: UITableViewController {
     
     //Button to toggle edit mode
     @IBAction func toggleEditMode(_ sender: UIBarButtonItem) {
-       
+        if isEditing {
+            sender.title = "Edit"
+            
+            setEditing(false, animated: true)
+        } else {
+            sender.title = "Done"
+            setEditing(true, animated: true)
+        }
     }
     
     var keys: [String]!
@@ -58,15 +65,25 @@ class MovieTableViewController: UITableViewController {
         movieList.moveMovie(fromIndexPath: fromIndexPath, toIndexPath: to)
     }
     
+    // Override to support editing the table view.
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            // Delete the row from the data source
+            movieList.removeMovie(indexPath: indexPath)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
+    }
+
     // MARK: - Navigation
 
-    /*// In a storyboard-based application, you will often want to do a little preparation before navigation
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
         
-       
-    }*/
+        let dst = segue.destination as! addMovieViewController
+                dst.movieList = movieList
+    }
     
 
 }
